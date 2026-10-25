@@ -1,0 +1,19 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# deps / builds
+node_modules/
+.next/
+.venv/
+venv/
+__pycache__/
+*.pyc
+dist/
+build/
+# scratch
+.playwright-mcp/
+.DS_Store
+reports/

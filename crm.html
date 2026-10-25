@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sapak — Supplier CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#0E7C86;
+  --accent-soft:color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent-ghost:color-mix(in srgb, var(--accent) 6%, transparent);
+  --accent-strong:color-mix(in srgb, var(--accent) 82%, #000);
+  --on-accent:#fff;
+  --ink:#0B2227; --ink-2:#46595c; --ink-3:#7a8a8c;
+  --bg:#F3F8F8; --surface:#ffffff; --surface-2:#FAFCFC; --surface-3:#F0F6F6;
+  --line:#E4ECEC; --line-2:#D6E2E2;
+  --good:#1E9E6A; --good-soft:rgba(30,158,106,.12);
+  --amber:#C5811C; --amber-soft:rgba(197,129,28,.14);
+  --blue:#2563EB; --blue-soft:rgba(37,99,235,.12);
+  --red:#C0392B; --red-soft:rgba(192,57,43,.10);
+  --gray-soft:#EEF3F3;
+  --radius:14px; --radius-sm:10px; --radius-lg:22px;
+  --shadow-sm:0 1px 2px rgba(11,34,39,.05), 0 1px 3px rgba(11,34,39,.04);
+  --shadow:0 4px 14px rgba(11,34,39,.07), 0 2px 5px rgba(11,34,39,.05);
+  --font-head:Heebo, system-ui, sans-serif;
+  --font-body:Assistant, system-ui, sans-serif;
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15.5px;line-height:1.5}
+h1,h2,h3,h4{font-family:var(--font-head);margin:0;line-height:1.12;letter-spacing:-.01em;font-weight:800;color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
+input{font-family:inherit}
+
+/* top bar */
+.topbar{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.topbar-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:22px;padding:12px 24px}
+.nav-word{font-family:var(--font-head);font-weight:800;font-size:23px;letter-spacing:-.02em}
+.nav-word b{color:var(--accent)}
+.nav-links{display:flex;gap:6px;margin-inline-start:8px}
+.nav-links a{color:var(--ink-2);text-decoration:none;font-weight:600;padding:7px 13px;border-radius:9px}
+.nav-links a.active,.nav-links a:hover{background:var(--accent-soft);color:var(--accent-strong)}
+.topbar .spacer{flex:1}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface-3);border:1px solid var(--line);border-radius:10px;padding:7px 12px;min-width:230px;color:var(--ink-3)}
+.search input{border:0;background:transparent;outline:none;flex:1;color:var(--ink);font-size:14.5px}
+.me{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+
+/* layout */
+.page{max-width:var(--maxw);margin:0 auto;padding:26px 24px 60px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.page-head p{margin:6px 0 0;color:var(--ink-2)}
+.btn{border:0;border-radius:11px;padding:10px 18px;font-weight:700;font-size:15px}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:var(--accent-strong)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-sm)}
+.stat .k{font-family:var(--font-head);font-weight:800;font-size:28px}
+.stat .l{color:var(--ink-2);font-size:14px;margin-top:2px}
+.stat .d{font-size:13px;font-weight:700;margin-top:6px}
+.d.up{color:var(--good)} .d.flat{color:var(--ink-3)}
+
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line)}
+.card-head h3{font-size:17px}
+.card-head .link{color:var(--accent);font-weight:700;font-size:14px;text-decoration:none}
+
+/* table */
+table{width:100%;border-collapse:collapse;font-size:14.5px}
+th{text-align:left;color:var(--ink-3);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+td{padding:13px 20px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tr.row:hover td{background:var(--accent-ghost)}
+.supp{display:flex;align-items:center;gap:11px}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;flex:none}
+.supp .nm{font-weight:700}
+.supp .cat{color:var(--ink-3);font-size:13px}
+.badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12.5px;font-weight:700}
+.b-good{background:var(--good-soft);color:var(--good)}
+.b-amber{background:var(--amber-soft);color:var(--amber)}
+.b-blue{background:var(--blue-soft);color:var(--blue)}
+.b-gray{background:var(--gray-soft);color:var(--ink-2)}
+.b-red{background:var(--red-soft);color:var(--red)}
+.stars{color:var(--amber);letter-spacing:1px;font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+
+/* activity */
+.feed{list-style:none;margin:0;padding:8px 0}
+.feed li{display:flex;gap:12px;padding:11px 20px}
+.feed li+li{border-top:1px solid var(--line)}
+.dot{width:9px;height:9px;border-radius:50%;margin-top:7px;flex:none}
+.feed .t{color:var(--ink-3);font-size:12.5px;margin-top:1px}
+.feed .body b{font-weight:700}
+
+/* pipeline */
+.pipeline{margin-top:18px}
+.pipe-row{display:flex;align-items:center;gap:12px;padding:12px 20px;border-top:1px solid var(--line)}
+.pipe-row:first-of-type{border-top:0}
+.pipe-row .ref{font-family:var(--font-head);font-weight:800;color:var(--ink-3);font-size:13px;width:74px;flex:none}
+.pipe-row .title{flex:1;font-weight:700}
+.pipe-row .meta{color:var(--ink-3);font-size:13px}
+.bar{width:130px;height:7px;border-radius:99px;background:var(--surface-3);overflow:hidden;flex:none}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="nav-word">sa<b>pak</b></div>
+    <nav class="nav-links">
+      <a href="#">Dashboard</a>
+      <a href="#" class="active">CRM</a>
+      <a href="#">Deals</a>
+      <a href="#">Reports</a>
+    </nav>
+    <div class="spacer"></div>
+    <label class="search">🔍<input placeholder="Search suppliers, deals…"></label>
+    <div class="me">DK</div>
+  </div>
+</header>
+
+<main class="page">
+  <div class="page-head">
+    <div>
+      <h1>Supplier CRM</h1>
+      <p>Relationships, response quality and open negotiations across your supplier base.</p>
+    </div>
+    <button class="btn btn-primary">+ Add supplier</button>
+  </div>
+
+  <section class="stats">
+    <div class="stat"><div class="k num">48</div><div class="l">Active suppliers</div><div class="d up">▲ 4 this month</div></div>
+    <div class="stat"><div class="k num">12</div><div class="l">Open negotiations</div><div class="d flat">3 awaiting reply</div></div>
+    <div class="stat"><div class="k num">92%</div><div class="l">RFQ response rate</div><div class="d up">▲ 6 pts vs Q1</div></div>
+    <div class="stat"><div class="k num">1.8d</div><div class="l">Avg. first response</div><div class="d up">▲ 0.4d faster</div></div>
+  </section>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <div class="card-head"><h3>Suppliers</h3><a class="link" href="#">View all →</a></div>
+        <table>
+          <thead><tr><th>Supplier</th><th>Rating</th><th>Deals</th><th>Last contact</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr class="row">
+              <td><div class="supp"><div class="avatar" style="background:#0E7C86">NL</div><div><div class="nm">Northline Packaging</div><div class="cat">Packaging &amp; crating</div></div></div></td>
+              <td><span class="stars">★★★★★</span> <span class="num">4.9</span></td>
+              <td class="num">17</td>
+              <td>Today, 09:42</td>
+              <td><span class="badge b-blue">Negotiating</span></td>
+            </tr>
+            <tr class="row">
+              <td><div class="supp"><div class="avatar" style="background:#2563EB">AV</div><div><div class="nm">Avantor Industrial</div><div class="cat">MRO supplies</div></div></div></td>
+              <td><span class="stars">★★★★★</span> <span class="num">4.7</span></td>
+              <td class="num">23</td>
+              <td>Yesterday</td>
+              <td><span class="badge b-good">Offer received</span></td>
+            </tr>
+            <tr class="row">
+              <td><div class="supp"><div class="avatar" style="background:#C5811C">GM</div><div><div class="nm">Golan Metalworks</div><div class="cat">Fabrication</div></div></div></td>
+              <td><span class="stars">★★★★☆</span> <span class="num">4.3</span></td>
+              <td class="num">9</td>
+              <td>Mon, Jul 6</td>
+              <td><span class="badge b-amber">Awaiting reply</span></td>
+            </tr>
+            <tr class="row">
+              <td><div class="supp"><div class="avatar" style="background:#7C3AED">TS</div><div><div class="nm">TransSped Logistics</div><div class="cat">Freight &amp; delivery</div></div></div></td>
+              <td><span class="stars">★★★★☆</span> <span class="num">4.1</span></td>
+              <td class="num">31</td>
+              <td>Fri, Jul 3</td>
+              <td><span class="badge b-good">Offer received</span></td>
+            </tr>
+            <tr class="row">
+              <td><div class="supp"><div class="avatar" style="background:#1E9E6A">HP</div><div><div class="nm">Hadar Plastics</div><div class="cat">Injection molding</div></div></div></td>
+              <td><span class="stars">★★★☆☆</span> <span class="num">3.6</span></td>
+              <td class="num">5</td>
+              <td>Jun 28</td>
+              <td><span class="badge b-gray">Dormant</span></td>
+            </tr>
+            <tr class="row">
+              <td><div class="supp"><div class="avatar" style="background:#C0392B">RS</div><div><div class="nm">Rimon Safety Gear</div><div class="cat">PPE &amp; safety</div></div></div></td>
+              <td><span class="stars">★★★★☆</span> <span class="num">4.4</span></td>
+              <td class="num">12</td>
+              <td>Jun 25</td>
+              <td><span class="badge b-red">Declined RFQ</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card pipeline">
+        <div class="card-head"><h3>Open deals</h3><a class="link" href="#">All deals →</a></div>
+        <div class="pipe-row">
+          <span class="ref">RFQ-2041</span>
+          <span class="title">2,000 corrugated shipping crates</span>
+          <span class="meta">5 contacted · 3 offers</span>
+          <span class="bar"><i style="width:72%"></i></span>
+          <span class="badge b-blue">Negotiating</span>
+        </div>
+        <div class="pipe-row">
+          <span class="ref">RFQ-2038</span>
+          <span class="title">Forklift service contract, 12 mo</span>
+          <span class="meta">4 contacted · 4 offers</span>
+          <span class="bar"><i style="width:90%"></i></span>
+          <span class="badge b-good">Review</span>
+        </div>
+        <div class="pipe-row">
+          <span class="ref">RFQ-2036</span>
+          <span class="title">HDPE pellets — 40 t quarterly</span>
+          <span class="meta">6 contacted · 2 offers</span>
+          <span class="meta bar"><i style="width:38%"></i></span>
+          <span class="badge b-amber">Collecting</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h3>Agent activity</h3><a class="link" href="#">Audit log →</a></div>
+      <ul class="feed">
+        <li><span class="dot" style="background:var(--good)"></span><div class="body"><div><b>Offer received</b> — Avantor Industrial sent a revised quote on RFQ-2041 (−7% vs. initial).</div><div class="t">Today, 11:20 · via email</div></div></li>
+        <li><span class="dot" style="background:var(--blue)"></span><div class="body"><div><b>Call completed</b> — agent negotiated delivery terms with Northline Packaging (14 min).</div><div class="t">Today, 09:42 · phone</div></div></li>
+        <li><span class="dot" style="background:var(--amber)"></span><div class="body"><div><b>Reminder sent</b> — follow-up to Golan Metalworks, RFQ-2036, no reply for 48 h.</div><div class="t">Today, 08:00 · email</div></div></li>
+        <li><span class="dot" style="background:var(--blue)"></span><div class="body"><div><b>Clarification asked</b> — agent queried TransSped on liftgate delivery for RFQ-2038.</div><div class="t">Yesterday, 16:12 · email</div></div></li>
+        <li><span class="dot" style="background:var(--good)"></span><div class="body"><div><b>Winner picked</b> — RFQ-2029 awarded to Northline Packaging; PO draft ready.</div><div class="t">Mon, Jul 6 · system</div></div></li>
+        <li><span class="dot" style="background:var(--ink-3)"></span><div class="body"><div><b>Supplier added</b> — Rimon Safety Gear imported from vendor list.</div><div class="t">Jun 25 · manual</div></div></li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "waha": "hub:126562ce-e0c5-4b8f-80bc-4bd832c58365"
+  },
+  "alwaysUseSkills": [
+    "deep-research"
+  ]
+}

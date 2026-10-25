@@ -1,0 +1,28 @@
+{
+  "type": "agent",
+  "id": "4b687224-f792-4c6e-8d7e-3f557826d7bf",
+  "name": "Procurement agent",
+  "title": "Procurement agent",
+  "description": "Turns a WhatsApp buying request into an approved spec, then sends one HTML report with real suppliers, verified prices, images and order details.",
+  "worker_type": "claude",
+  "model": "sm",
+  "enabled": true,
+  "load_flowpad_assistant": false,
+  "skills": [],
+  "mcp_servers": [],
+  "subagents": [],
+  "additional_dirs": [],
+  "cli_options": {},
+  "starter_prompts": [
+    "I need 5 office chairs",
+    "צריך מדפסת תלת-ממד לאבות טיפוס"
+  ],
+  "machine_size": "sm",
+  "version": 2,
+  "places": [
+    {
+      "deployment_id": "ac5708e1-d328-41a9-aecf-dd9f698716a1",
+      "model": "claude-haiku-5-5"
+    }
+  ]
+}
